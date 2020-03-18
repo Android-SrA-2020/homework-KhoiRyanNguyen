@@ -54,7 +54,7 @@ class GameFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
-        // Set the viewmodel for databinding - this allows the bound layout access
+        // Set the viewModel for databinding - this allows the bound layout access
         // to all the data in the VieWModel
         binding.gameViewModel = viewModel
 
@@ -62,14 +62,18 @@ class GameFragment : Fragment() {
         // This is used so that the binding can observe LiveData updates
         binding.lifecycleOwner = viewLifecycleOwner
 
+
         // Observer for the Game finished event
-        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
+        viewModel.eventGameFinish.observe(this, Observer<Boolean> { hasFinished ->
             if (hasFinished) gameFinished()
         })
 
         return binding.root
     }
 
+    /**
+     * Called when the game is finished
+     */
     private fun gameFinished() {
         Toast.makeText(activity, "Game has just finished", Toast.LENGTH_SHORT).show()
         val action = GameFragmentDirections.actionGameToScore()
