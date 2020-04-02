@@ -130,6 +130,10 @@ class SleepTrackerViewModel(
         _showSnackbarEvent.value = null
     }
 
+    fun onSleepNightClicked(id: Long) {
+        _navigateToSleepDetail.value = id
+    }
+
     /**
      * Call this immediately after navigating to [SleepQualityFragment]
      *
@@ -144,11 +148,21 @@ class SleepTrackerViewModel(
         initializeTonight()
     }
 
+    fun onSleepDetailNavigated() {
+        _navigateToSleepDetail.value = null
+    }
+
+
+
     private fun initializeTonight() {
         uiScope.launch {
             tonight.value = getTonightFromDatabase()
         }
     }
+
+    private val _navigateToSleepDetail = MutableLiveData<Long>()
+    val navigateToSleepDetail
+        get() = _navigateToSleepDetail
 
     /**
      *  Handling the case of the stopped app or forgotten recording,
